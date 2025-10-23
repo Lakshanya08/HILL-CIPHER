@@ -28,8 +28,37 @@ STEP-1: Read the plain text and key from the user. STEP-2: Split the plain text 
 STEP-4: Multiply the two matrices to obtain the cipher text of length three.
 STEP-5: Combine all these groups to get the complete cipher text.
 
-## PROGRAM 
+## PROGRAM:
+```
+def hill_cipher_encrypt(message, key):
+    message = message.upper().replace(" ", "")
+    key_size = len(key)
+    while len(message) % key_size != 0:
+        message += 'X'
 
-## OUTPUT
+    ciphertext = ""
 
-## RESULT
+    for i in range(0, len(message), key_size):
+        block = message[i:i + key_size]
+        block_vector = [ord(c) - 65 for c in block]
+        result = [0] * key_size
+        for r in range(key_size):
+            for c in range(key_size):
+                result[r] += key[r][c] * block_vector[c]
+            result[r] %= 26
+        ciphertext += ''.join(chr(num + 65) for num in result)
+    return ciphertext
+message = input("Enter message: ")
+
+key = [[3, 3],
+       [2, 5]]
+
+encrypted = hill_cipher_encrypt(message, key)
+print("Encrypted text:", encrypted)
+```
+
+## OUTPUT:
+<img width="275" height="55" alt="image" src="https://github.com/user-attachments/assets/77fc2ab0-153e-44dc-8cb4-385b9216003a" />
+
+## RESULT:
+Thus the implementation of hill cipher had been executed successfully.
